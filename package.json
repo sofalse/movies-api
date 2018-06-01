@@ -1,0 +1,24 @@
+{
+  "name": "movies-api",
+  "version": "1.0.0",
+  "description": "A recruitment task for Netguru.",
+  "main": "index.js",
+  "repository": "https://github.com/sofalse/movies-api.git",
+  "author": "Michal W <j989898@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "helmet": "^3.12.1",
+    "sqlite3": "^4.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
