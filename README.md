@@ -5,7 +5,7 @@
 
 ### Routing:
 
-** GET ** /movies - fetches the list of movies in the database.
+__GET__ /movies - fetches the list of movies in the database.
 
 Available parameters:
 * `limit=x` - limits the response to x records,
@@ -37,20 +37,20 @@ Data is being returned with `application/json` content type.
 
 ------------
 
-** GET ** /comments - fetches the list of comments being stored in application database. Can be modified with `limit` and `fields` parameters (check above), as well with `movie` parameter, which filters the comments by the movie ID. Cannot be sorted!
+__GET__ /comments - fetches the list of comments being stored in application database. Can be modified with `limit` and `fields` parameters (check above), as well with `movie` parameter, which filters the comments by the movie ID. Cannot be sorted!
 
 
 Data is being returned with `application/json` content type.
 
 ------------
 
-** POST ** /movies - adds a movie to the database. Expects **one** parameter (* x-www-form-urlencoded data type *) - `title`, which specifies title of the movie. All the remaining data is being downloaded from the OMBD API. 
+__POST__ /movies - adds a movie to the database. Expects **one** parameter ( * x-www-form-urlencoded data type * ) - `title`, which specifies title of the movie. All the remaining data is being downloaded from the OMBD API. 
 
 Returns movie object in *JSON* format.
 
 ------------
 
-** POST ** /comments - adds a comment to the movie. Expects **two** parameters (* x-www-form-urlencoded data type *):
+__POST__ /comments - adds a comment to the movie. Expects **two** parameters ( * x-www-form-urlencoded data type * ):
 * `movie` - ID of the movie that's being commented,
 * `content` - text content of the comment.
 
