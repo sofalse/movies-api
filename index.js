@@ -11,7 +11,7 @@ const db = new sqlite3.Database('./database.sqlite')
 const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 
 const SERVER_PORT = 80
-const OMDB_API_KEY = '8640b907'
+const OMDB_API_KEY = 'KEYHERE'
 const OMDB_LINK = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=`
 
 app.use(helmet())
