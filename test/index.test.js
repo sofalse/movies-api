@@ -36,6 +36,12 @@ describe('GET /movies', () => {
                 console.error(err)
             })
     })
+    it('works with negative limit', done => {
+        request(server)
+            .get('/movies?limit=-5')
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200, done)
+    })
     it('works with only title field', () => {
         request(server)
             .get('/movies?fields=Title')
@@ -60,15 +66,19 @@ describe('GET /movies', () => {
                 console.error(err)
             })
     })
+    it('works with unknown fields', done => {
+        request(server)
+            .get('/movies?fields=Plsgsot')
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200, done)
+    })
     it('works with sorting', () => {
         request(server)
             .get('/movies?sort=Year')
             .expect('Content-Type', 'application/json; charset=utf-8')
             .expect(200)
             .then(res => {
-                expect(parseInt(res.body[0].Year)).to.be.at.most(
-                    parseInt(res.body[1].Year)
-                )
+                expect(parseInt(res.body[0].Year)).to.be.at.most(parseInt(res.body[1].Year))
             })
             .catch(err => {
                 console.error(err)
@@ -164,6 +174,12 @@ describe('GET /comments', () => {
                 console.error(err)
             })
     })
+    it('works with negative limit', done => {
+        request(server)
+            .get('/comments?limit=-10')
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200, done)
+    })
     it('works with only content field', () => {
         request(server)
             .get('/comments?fields=content')
@@ -175,6 +191,12 @@ describe('GET /comments', () => {
             .catch(err => {
                 console.error(err)
             })
+    })
+    it('works with unknown fields', done => {
+        request(server)
+            .get('/movies?fields=Pizza')
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200, done)
     })
     it('works fine with strange data', done => {
         request(server)

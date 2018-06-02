@@ -11,7 +11,7 @@ const db = new sqlite3.Database('./database.sqlite')
 const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 
 const SERVER_PORT = 80
-const OMDB_API_KEY = 'KEYHERE'
+const OMDB_API_KEY = '8640b907'
 const OMDB_LINK = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=`
 
 app.use(helmet())
@@ -75,9 +75,18 @@ app.post('/movies', urlEncodedParser, (req, res) => {
 
 app.get('/movies', (req, res) => {
     let limit, sort, fields
+    const ALLOWED_MOVIES_FILTERS = /^(Id|Title|Year|Rated|Released|Runtime|Genre|Director|Writer|Actors|Plot|Language|Country|Awards|Metascore|imdbRating|imdbVotes|imdbID|Type|DVD|BoxOffice|Production|Website)$/
     req.query.limit ? (limit = `LIMIT ${req.query.limit}`) : (limit = '')
-    req.query.sort ? (sort = `ORDER BY ${req.query.sort} ASC`) : (sort = '')
-    req.query.fields ? (fields = req.query.fields) : (fields = '')
+    req.query.sort
+        ? req.query.sort.split(',').every(word => ALLOWED_MOVIES_FILTERS.test(word))
+            ? (sort = `ORDER BY ${req.query.sort} ASC`)
+            : (sort = '')
+        : (sort = '')
+    req.query.fields
+        ? req.query.fields.split(',').every(word => ALLOWED_MOVIES_FILTERS.test(word))
+            ? (fields = req.query.fields)
+            : (fields = '')
+        : (fields = '')
     db.all(`SELECT ${fields ? fields : '*'} FROM movies ${sort} ${limit}`, (err, rows) => {
         if (err) throw err
         res.send(rows)
@@ -113,8 +122,13 @@ app.post('/comments', urlEncodedParser, (req, res) => {
 
 app.get('/comments', (req, res) => {
     let limit, fields, movie
+    const ALLOWED_COMMENT_FILTERS = /^(id|content|movieID)$/
     req.query.limit ? (limit = `LIMIT ${req.query.limit}`) : (limit = '')
-    req.query.fields ? (fields = req.query.fields) : (fields = '')
+    req.query.fields
+        ? req.query.fields.split(',').every(word => ALLOWED_COMMENT_FILTERS.test(word))
+            ? (fields = req.query.fields)
+            : (fields = '')
+        : (fields = '')
     req.query.movie ? (movie = `WHERE movieID = ${req.query.movie}`) : (movie = '')
     db.all(`SELECT ${fields ? fields : '*'} FROM comments ${movie} ${limit}`, (err, rows) => {
         if (err) throw err
