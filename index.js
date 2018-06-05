@@ -34,7 +34,7 @@ app.post('/movies', urlEncodedParser, (req, res) => {
                 if (err) throw err
                 if (row.count === 0) {
                     db.run(
-                        'INSERT INTO movies (Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards, Metascore, imdbRating, imdbVotes, imdbID, Type, DVD, BoxOffice, Production, Website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                        'INSERT INTO movies (Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards, Poster, Ratings, Metascore, imdbRating, imdbVotes, imdbID, Type, DVD, BoxOffice, Production, Website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                         [
                             omdbRes.data.Title.toString(),
                             omdbRes.data.Year.toString(),
@@ -49,6 +49,8 @@ app.post('/movies', urlEncodedParser, (req, res) => {
                             omdbRes.data.Language.toString(),
                             omdbRes.data.Country.toString(),
                             omdbRes.data.Awards.toString(),
+                            omdbRes.data.Poster.toString(),
+                            JSON.stringify(omdbRes.data.Ratings),
                             omdbRes.data.Metascore.toString(),
                             omdbRes.data.imdbRating.toString(),
                             omdbRes.data.imdbVotes.toString(),
@@ -75,7 +77,7 @@ app.post('/movies', urlEncodedParser, (req, res) => {
 
 app.get('/movies', (req, res) => {
     let limit, sort, fields
-    const ALLOWED_MOVIES_FILTERS = /^(Id|Title|Year|Rated|Released|Runtime|Genre|Director|Writer|Actors|Plot|Language|Country|Awards|Metascore|imdbRating|imdbVotes|imdbID|Type|DVD|BoxOffice|Production|Website)$/
+    const ALLOWED_MOVIES_FILTERS = /^(Id|Title|Year|Rated|Released|Runtime|Genre|Director|Writer|Actors|Plot|Language|Country|Awards|Poster|Ratings|Metascore|imdbRating|imdbVotes|imdbID|Type|DVD|BoxOffice|Production|Website)$/
     req.query.limit ? (limit = `LIMIT ${req.query.limit}`) : (limit = '')
     req.query.sort
         ? req.query.sort.split(',').every(word => ALLOWED_MOVIES_FILTERS.test(word))
@@ -89,6 +91,9 @@ app.get('/movies', (req, res) => {
         : (fields = '')
     db.all(`SELECT ${fields ? fields : '*'} FROM movies ${sort} ${limit}`, (err, rows) => {
         if (err) throw err
+        for (let row of rows) {
+            row.Ratings ? (row.Ratings = JSON.parse(row.Ratings)) : null
+        }
         res.send(rows)
     })
 })
