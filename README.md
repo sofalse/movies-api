@@ -23,6 +23,8 @@ Available parameters:
 	* Language
 	* Country
 	* Awards
+	* Poster
+	* Ratings
 	* Metascore
 	* imdbRating
 	* imdbVotes
