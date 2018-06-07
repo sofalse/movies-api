@@ -1,3 +1,4 @@
+/* eslint-disable */
 let chai = require('chai')
 let expect = chai.expect
 let request = require('supertest')
@@ -103,9 +104,9 @@ describe('POST /movies', () => {
             .post('/movies')
             .send('title=Jaws')
             .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
             .then(res => {
                 const body = res.body
+                expect(res.status).to.be.oneOf([200, 201])
                 expect(body.Title).to.equal('Jaws')
                 expect(body.Year).to.equal('1975')
                 expect(body.Rated).to.equal('PG')
@@ -224,13 +225,19 @@ describe('POST /comments', () => {
             .send('movie=2')
             .expect(400)
     })
+    it('throws 404 when no movie found', () => {
+        request(server)
+            .post('/comments')
+            .send('movie=777')
+            .expect(404)
+    })
     it('works fine when it should to', () => {
         request(server)
             .post('/comments')
             .send('movie=2')
             .send('content=Bizzare!')
             .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
+            .expect(201)
             .then(res => {
                 expect(res.body).to.have.keys('movieID', 'content')
             })
@@ -245,7 +252,7 @@ describe('POST /comments', () => {
             .send('content=Bizzare!')
             .send('shouldyouhireme=yesplz')
             .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
+            .expect(201)
             .then(res => {
                 expect(res.body).to.have.keys('movieID', 'content')
             })

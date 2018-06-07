@@ -27,48 +27,57 @@ app.post('/movies', urlEncodedParser, (req, res) => {
     axios
         .get(OMDB_LINK + trimmedTitle)
         .then(omdbRes => {
+            let status = 200
             if (omdbRes.data.Response === 'False') {
                 return res.status(404).send('Movie not found')
             }
-            db.get('SELECT Count(*) AS count FROM movies WHERE imdbID = ?', [omdbRes.data.imdbID], (err, row) => {
-                if (err) throw err
-                if (row.count === 0) {
-                    db.run(
-                        'INSERT INTO movies (Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards, Poster, Ratings, Metascore, imdbRating, imdbVotes, imdbID, Type, DVD, BoxOffice, Production, Website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                        [
-                            omdbRes.data.Title.toString(),
-                            omdbRes.data.Year.toString(),
-                            omdbRes.data.Rated.toString(),
-                            omdbRes.data.Released.toString(),
-                            omdbRes.data.Runtime.toString(),
-                            omdbRes.data.Genre.toString(),
-                            omdbRes.data.Director.toString(),
-                            omdbRes.data.Writer.toString(),
-                            omdbRes.data.Actors.toString(),
-                            omdbRes.data.Plot.toString(),
-                            omdbRes.data.Language.toString(),
-                            omdbRes.data.Country.toString(),
-                            omdbRes.data.Awards.toString(),
-                            omdbRes.data.Poster.toString(),
-                            JSON.stringify(omdbRes.data.Ratings),
-                            omdbRes.data.Metascore.toString(),
-                            omdbRes.data.imdbRating.toString(),
-                            omdbRes.data.imdbVotes.toString(),
-                            omdbRes.data.imdbID.toString(),
-                            omdbRes.data.Type.toString(),
-                            omdbRes.data.DVD.toString(),
-                            omdbRes.data.BoxOffice.toString(),
-                            omdbRes.data.Production.toString(),
-                            omdbRes.data.Website.toString(),
-                        ],
-                        err => {
-                            if (err) throw err
-                            console.log(`Movie ${trimmedTitle} added to database.`)
-                        }
-                    )
-                }
+            return new Promise((resolve, reject) => {
+                db.get('SELECT Count(*) AS count FROM movies WHERE imdbID = ?', [omdbRes.data.imdbID], (err, row) => {
+                    if (err) throw err
+                    if (row.count === 0) {
+                        db.run(
+                            'INSERT INTO movies (Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards, Poster, Ratings, Metascore, imdbRating, imdbVotes, imdbID, Type, DVD, BoxOffice, Production, Website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                            [
+                                omdbRes.data.Title.toString(),
+                                omdbRes.data.Year.toString(),
+                                omdbRes.data.Rated.toString(),
+                                omdbRes.data.Released.toString(),
+                                omdbRes.data.Runtime.toString(),
+                                omdbRes.data.Genre.toString(),
+                                omdbRes.data.Director.toString(),
+                                omdbRes.data.Writer.toString(),
+                                omdbRes.data.Actors.toString(),
+                                omdbRes.data.Plot.toString(),
+                                omdbRes.data.Language.toString(),
+                                omdbRes.data.Country.toString(),
+                                omdbRes.data.Awards.toString(),
+                                omdbRes.data.Poster.toString(),
+                                JSON.stringify(omdbRes.data.Ratings),
+                                omdbRes.data.Metascore.toString(),
+                                omdbRes.data.imdbRating.toString(),
+                                omdbRes.data.imdbVotes.toString(),
+                                omdbRes.data.imdbID.toString(),
+                                omdbRes.data.Type.toString(),
+                                omdbRes.data.DVD.toString(),
+                                omdbRes.data.BoxOffice.toString(),
+                                omdbRes.data.Production.toString(),
+                                omdbRes.data.Website.toString(),
+                            ],
+                            err => {
+                                if (err) reject(err)
+                                status = 201
+                                console.log(`Movie ${trimmedTitle} added to database.`)
+                                resolve({ status: status, content: omdbRes.data })
+                            }
+                        )
+                    } else {
+                        resolve({ status: status, content: omdbRes.data })
+                    }
+                })
             })
-            res.send(omdbRes.data)
+        })
+        .then(data => {
+            res.status(data.status).send(data.content)
         })
         .catch(error => {
             console.error(error)
@@ -115,12 +124,15 @@ app.post('/comments', urlEncodedParser, (req, res) => {
         }
         db.run('INSERT INTO comments (content, movieID) VALUES (?, ?)', [trimmedContent, movieID], err => {
             if (err) throw err
-            res.type('json').send(
-                JSON.stringify({
-                    movieID: movieID,
-                    content: trimmedContent,
-                })
-            )
+            res
+                .type('json')
+                .status(201)
+                .send(
+                    JSON.stringify({
+                        movieID: movieID,
+                        content: trimmedContent,
+                    })
+                )
         })
     })
 })
