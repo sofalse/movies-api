@@ -67,17 +67,17 @@ app.post('/movies', urlEncodedParser, (req, res) => {
                                 if (err) reject(err)
                                 status = 201
                                 console.log(`Movie ${trimmedTitle} added to database.`)
-                                resolve({ status: status, content: omdbRes.data })
+                                resolve({ status, content: omdbRes.data })
                             }
                         )
                     } else {
-                        resolve({ status: status, content: omdbRes.data })
+                        resolve({ status, content: omdbRes.data })
                     }
                 })
             })
         })
         .then(data => {
-            res.status(data.status).send(data.content)
+            res.status(data.status).json(data.content)
         })
         .catch(error => {
             console.error(error)
@@ -103,7 +103,7 @@ app.get('/movies', (req, res) => {
         for (let row of rows) {
             row.Ratings ? (row.Ratings = JSON.parse(row.Ratings)) : null
         }
-        res.send(rows)
+        res.json(rows)
     })
 })
 
@@ -127,12 +127,10 @@ app.post('/comments', urlEncodedParser, (req, res) => {
             res
                 .type('json')
                 .status(201)
-                .send(
-                    JSON.stringify({
-                        movieID: movieID,
-                        content: trimmedContent,
-                    })
-                )
+                .json({
+                    movieID,
+                    content: trimmedContent,
+                })
         })
     })
 })
@@ -149,7 +147,7 @@ app.get('/comments', (req, res) => {
     req.query.movie ? (movie = `WHERE movieID = ${req.query.movie}`) : (movie = '')
     db.all(`SELECT ${fields ? fields : '*'} FROM comments ${movie} ${limit}`, (err, rows) => {
         if (err) throw err
-        res.send(rows)
+        res.json(rows)
     })
 })
 
