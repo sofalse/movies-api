@@ -4,6 +4,7 @@
 <p align="center">
 	<a href="https://travis-ci.org/sofalse/movies-api"><img src="https://travis-ci.org/sofalse/movies-api.svg?branch=master" alt-"Build Status"></a>
 	<a href='https://coveralls.io/github/sofalse/movies-api?branch=master'><img src='https://coveralls.io/repos/github/sofalse/movies-api/badge.svg?branch=master' alt='Coverage Status' /></a>
+<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fsofalse%2Fmovies-api?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsofalse%2Fmovies-api.svg?type=shield"/></a>
 </p>
 
 *Sample data in SQLite database included, as well as Mocha + Chai + Supertest Unit Tests. Everything's been debugged, tested and protected against possible user errors.*
@@ -62,3 +63,7 @@ __POST__ /comments - adds a comment to the movie. Expects **two** parameters ( *
 * `content` - text content of the comment.
 
 Returns comment object in *JSON* format.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsofalse%2Fmovies-api.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsofalse%2Fmovies-api?ref=badge_large)
