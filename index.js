@@ -10,7 +10,7 @@ const sqlite3 = require('sqlite3').verbose()
 const db = new sqlite3.Database('./database.sqlite')
 const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 
-const SERVER_PORT = 80
+const SERVER_PORT = 8080
 const OMDB_API_KEY = '8640b907'
 const OMDB_LINK = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=`
 
