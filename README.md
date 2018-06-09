@@ -1,6 +1,11 @@
 # Movies API
 ## Simple movie info API written in NodeJS using Express
 
+<p align="center">
+	<a href="https://travis-ci.org/sofalse/movies-api"><img src="https://travis-ci.org/sofalse/movies-api.svg?branch=master" alt-"Build Status"></a>
+	<a href='https://coveralls.io/github/sofalse/movies-api?branch=master'><img src='https://coveralls.io/repos/github/sofalse/movies-api/badge.svg?branch=master' alt='Coverage Status' /></a>
+</p>
+
 *Sample data in SQLite database included, as well as Mocha + Chai + Supertest Unit Tests. Everything's been debugged, tested and protected against possible user errors.*
 
 ### Routing:
