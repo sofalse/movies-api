@@ -14,7 +14,7 @@ export const getComments = (req: Request, res: Response) => {
         ? (fields = req.query.fields.split(',').join(' '))
         : (fields = '')
     : (fields = '')
-    req.query.movie ? (movie = req.query.movie) : (movie = '')
+    req.query.movie ? (movie = req.query.movie) : (movie = '*')
     Comment.find({ movieID: movie }).select(fields).limit(limit).exec().then(data => {
         res.json({ data })
     }).catch(err => {

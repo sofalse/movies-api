@@ -4,16 +4,14 @@ import dotenv from 'dotenv'
 import express from 'express'
 import expressValidator from 'express-validator'
 import helmet from 'helmet'
-import mongoose from 'mongoose'
 import router from './routes/routes'
-import logger from './utils/logger'
+import Database from './utils/database'
 
 dotenv.config()
 const app = express()
 
-mongoose.connect(process.env.DB_URI || '').then(() => {
-    logger.info('Connected to mongoDB.')
-}).catch(err => { logger.error('Error while connecting to mongoDB.') })
+const database = new Database()
+database.connect()
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(helmet())
