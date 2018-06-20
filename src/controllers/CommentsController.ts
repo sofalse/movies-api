@@ -6,16 +6,16 @@ import logger from '../utils/logger'
 export const getComments = (req: Request, res: Response) => {
     let limit: number
     let fields: string
-    let movie: string
+    let movie: object
     const ALLOWED_COMMENT_FILTERS: RegExp = /^(id|content|movieID)$/
     req.query.limit ? (limit = parseInt(req.query.limit, 10)) : (limit = 0)
     req.query.fields
-    ? req.query.fields.split(',').every((word: string) => ALLOWED_COMMENT_FILTERS.test(word))
+    ? req.query.fields.split(',').filter((word: string) => ALLOWED_COMMENT_FILTERS.test(word))
         ? (fields = req.query.fields.split(',').join(' '))
         : (fields = '')
     : (fields = '')
-    req.query.movie ? (movie = req.query.movie) : (movie = '*')
-    Comment.find({ movieID: movie }).select(fields).limit(limit).exec().then(data => {
+    req.query.movie ? (movie = { movieID: req.query.movie }) : (movie = {})
+    Comment.find(movie).select(fields).limit(limit).exec().then(data => {
         res.json({ data })
     }).catch(err => {
         logger.error(err)

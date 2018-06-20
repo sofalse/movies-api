@@ -10,12 +10,12 @@ export const getMovies = (req: Request, res: Response) => {
     const ALLOWED_MOVIES_FILTERS: RegExp = /^(Id|Title|Year|Rated|Released|Runtime|Genre|Director|Writer|Actors|Plot|Language|Country|Awards|Poster|Ratings|Metascore|imdbRating|imdbVotes|imdbID|Type|DVD|BoxOffice|Production|Website)$/
     req.query.limit ? (limit = parseInt(req.query.limit, 10)) : limit = 0
     req.query.sort
-    ? req.query.sort.split(',').every((word: string) => ALLOWED_MOVIES_FILTERS.test(word))
+    ? req.query.sort.split(',').filter((word: string) => ALLOWED_MOVIES_FILTERS.test(word))
         ? (sort = req.query.sort)
         : (sort = '')
     : (sort = '')
     req.query.fields
-    ? req.query.fields.split(',').every((word: string) => ALLOWED_MOVIES_FILTERS.test(word))
+    ? req.query.fields.split(',').filter((word: string) => ALLOWED_MOVIES_FILTERS.test(word))
         ? (fields = req.query.fields.split(',').join(' '))
         : (fields = '')
     : (fields = '')
