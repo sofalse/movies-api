@@ -1,0 +1,305 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Another simple movie database RESTful API.",
+    "version": "1.0.0",
+    "title": "Movies API",
+    "contact": {
+      "email": "j989898@gmail.com"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "consumes": [
+    "application/json; charset=utf-8"
+  ],
+  "produces": [
+    "application/json; charset=utf-8"
+  ],
+  "tags": [
+    {
+      "name": "Movies",
+      "description": "Manage movies"
+    },
+    {
+      "name": "Comments",
+      "description": "Manage comments"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/movies": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Fetches all the movies.",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limits response keys to given, seperated by comma.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limits number of items in response.",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "Sorts the result data ascending by the given key.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies fetched successfully.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Movie"
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid parameter value."
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Adds a movie to the database.",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Title of the movie.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movie is already in the database.",
+            "schema": {
+              "$ref": "#/definitions/Movie"
+            }
+          },
+          "201": {
+            "description": "Movie has been successfully added to the database.",
+            "schema": {
+              "$ref": "#/definitions/Movie"
+            }
+          },
+          "400": {
+            "description": "Parameters missing."
+          },
+          "404": {
+            "description": "Movie with given title was not found."
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Fetches all the comments.",
+        "parameters": [
+          {
+            "name": "movie",
+            "in": "query",
+            "description": "ID of the movie the shown comments should be associated with.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limits response keys to given, seperated by comma.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limits number of items in response.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comments fetched successfully.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Comment"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Adds a new comment to the database.",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "content",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Content of the comment that's being inserted."
+          },
+          {
+            "name": "movie",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "ID of the movie that the comment should be associated with."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The comment has been added successfully.",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
+          "400": {
+            "description": "Parameters missing."
+          },
+          "422": {
+            "description": "Invalid movie ID."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Movie": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "Actors": {
+          "type": "string"
+        },
+        "Awards": {
+          "type": "string"
+        },
+        "BoxOffice": {
+          "type": "string"
+        },
+        "Country": {
+          "type": "string"
+        },
+        "DVD": {
+          "type": "string"
+        },
+        "Director": {
+          "type": "string"
+        },
+        "Genre": {
+          "type": "string"
+        },
+        "Language": {
+          "type": "string"
+        },
+        "Metascore": {
+          "type": "integer"
+        },
+        "Plot": {
+          "type": "string"
+        },
+        "Poster": {
+          "type": "string"
+        },
+        "Production": {
+          "type": "string"
+        },
+        "Rated": {
+          "type": "string"
+        },
+        "Ratings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Source": {
+                "type": "string"
+              },
+              "Value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Released": {
+          "type": "string"
+        },
+        "Runtime": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "Website": {
+          "type": "string"
+        },
+        "Writer": {
+          "type": "string"
+        },
+        "Year": {
+          "type": "string"
+        },
+        "imdbID": {
+          "type": "string"
+        },
+        "imdbRating": {
+          "type": "string"
+        },
+        "imdbVotes": {
+          "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "movieID": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
