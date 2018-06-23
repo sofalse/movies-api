@@ -200,46 +200,60 @@
       "type": "object",
       "properties": {
         "_id": {
-          "type": "string"
+          "type": "string",
+          "example": "5b2d67494928b000ec8318d0"
         },
         "Actors": {
-          "type": "string"
+          "type": "string",
+          "example": "Billy Crudup, Frances McDormand, Kate Hudson, Jason Lee"
         },
         "Awards": {
-          "type": "string"
+          "type": "string",
+          "example": "Won 1 Oscar."
         },
         "BoxOffice": {
-          "type": "string"
+          "type": "string",
+          "example": "$31,716,715"
         },
         "Country": {
-          "type": "string"
+          "type": "string",
+          "example": "USA"
         },
         "DVD": {
-          "type": "string"
+          "type": "string",
+          "example": "13 Mar 2001"
         },
         "Director": {
-          "type": "string"
+          "type": "string",
+          "example": "Cameron Crowe"
         },
         "Genre": {
-          "type": "string"
+          "type": "string",
+          "example": "Adventure"
         },
         "Language": {
-          "type": "string"
+          "type": "string",
+          "example": "English"
         },
         "Metascore": {
-          "type": "integer"
+          "type": "integer",
+          "example": 90
         },
         "Plot": {
-          "type": "string"
+          "type": "string",
+          "example": "Brief plot summary here."
         },
         "Poster": {
-          "type": "string"
+          "type": "string",
+          "example": "https://link-to-poster.com/poster.jpg"
         },
         "Production": {
-          "type": "string"
+          "type": "string",
+          "example": "DreamWorks SKG"
         },
         "Rated": {
-          "type": "string"
+          "type": "string",
+          "example": "R"
         },
         "Ratings": {
           "type": "array",
@@ -253,37 +267,57 @@
                 "type": "string"
               }
             }
-          }
+          },
+          "example": [
+            {
+              "Source": "Internet Movie Database",
+              "Value": "7.9/10"
+            },
+            {
+              "Source": "Metacritic",
+              "Value": "90/100"
+            }
+          ]
         },
         "Released": {
-          "type": "string"
+          "type": "string",
+          "example": "22 Sep 2000"
         },
         "Runtime": {
-          "type": "string"
+          "type": "string",
+          "example": "122 min"
         },
         "Title": {
-          "type": "string"
+          "type": "string",
+          "example": "Almost Famous"
         },
         "Type": {
-          "type": "string"
+          "type": "string",
+          "example": "movie"
         },
         "Website": {
-          "type": "string"
+          "type": "string",
+          "example": "http://link-to-movie-webpage.com/"
         },
         "Writer": {
-          "type": "string"
+          "type": "string",
+          "example": "Cameron Crowe"
         },
         "Year": {
-          "type": "string"
+          "type": "string",
+          "example": "2000"
         },
         "imdbID": {
-          "type": "string"
+          "type": "string",
+          "example": "tt0181875"
         },
         "imdbRating": {
-          "type": "string"
+          "type": "string",
+          "example": 7.9
         },
         "imdbVotes": {
-          "type": "string"
+          "type": "string",
+          "example": "226,293"
         }
       }
     },
@@ -291,13 +325,16 @@
       "type": "object",
       "properties": {
         "_id": {
-          "type": "string"
+          "type": "string",
+          "example": "5b27f657c05ef51438c31fb1"
         },
         "content": {
-          "type": "string"
+          "type": "string",
+          "example": "Outstanding!"
         },
         "movieID": {
-          "type": "string"
+          "type": "string",
+          "example": "5b11346936ab403e40a9a522"
         }
       }
     }
