@@ -26,8 +26,8 @@
     "express": "^4.16.3",
     "express-validator": "^5.2.0",
     "helmet": "^3.12.1",
-    "mongodb": "^3.0.10",
-    "mongoose": "^5.1.5",
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.10",
     "typescript": "^2.9.2",
     "winston": "^3.0.0"
   },
