@@ -18,7 +18,7 @@
     "@types/mongodb": "3.0.21",
     "@types/mongoose": "^5.0.16",
     "@types/winston": "^2.3.9",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
